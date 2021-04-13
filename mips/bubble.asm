@@ -19,17 +19,17 @@
 	# a0 - array
 	# a1 - length
 	Bubble:
-		# setting end = n - 1
+		# Setando o valor final = n - 1
 		subi $t0, $a1, 1
 		
 		first_for_bubble:
 			# n > 0 ?
 			ble $t0, $zero, first_for_bubble_exit
 		
-			# setting aux = false
+			# Setando aux = false
 			addi $t1, $zero, 0	
 			
-			# for again
+			# for novamente
 			
 			addi $t5, $zero, 0
 			
@@ -46,7 +46,7 @@
 				add $t6, $t6, $a0 # base + i * bytes
 				add $t7, $t7, $a0 # base + (i + 1) * bytes
 				
-				# load
+				# Carregamento
 				lw $t2, 0($t6) 
 				lw $t3, 0($t7)
 				
@@ -97,19 +97,19 @@
 		
 		for_print:
 			bge $t0, $t1, for_print_exit
-			# here if $t0 less than $t1
+			# aqui if $t0 less than $t1
 			
-			# $t0 = position
-			# $s1 = base array
+			# $t0 = posicao
+			# $s1 = array base
 			sll $t3, $t0, 2 # i * bytes
 			add $t3, $t3, $t4 # base + (position * bytes)
 			
-			# print number
+			# Printa o numero
 			li $v0, 1
 			lw $a0, 0($t3)
 			syscall
 			
-			# space
+			# Espaco
 			li $v0, 4
 			la $a0, spaceMsg
 			syscall
@@ -126,7 +126,7 @@
 		
 	##################################################
 			
-	# Fun??o main
+	# Funcao main
 	main:
 		# print "Digite o tamanho..." 
 		li $v0, 4
@@ -143,12 +143,12 @@
 		# input << 2 -> length * bytes
 		sll $s0, $v0, 2
 		
-		# DYNAMIC ALLOCATIO
+		# ALOCACAO DINAMICA
 		move $a0, $s0 	# v0 = retorno de strlen
-		li $v0, 9       # código para alocar memória
+		li $v0, 9       # codigo para alocar memoria
 		syscall
 		
-		# saving pointer
+		# salvando o ponteiro
 		move $s1, $v0
 		sw $s1, array
 		
@@ -158,18 +158,18 @@
 		
 		for_random:
 			bge $t0, $t1, for_random_exit
-			# here if $t0 less than $t1
+			# aqui if $t0 less than $t1
 			
-			li $v0, 42  # 42 is system call code to generate random int
-			move $a1, $t1 # $a1 is where you set the upper bound
-			syscall     # your generated number will be at $a0
+			li $v0, 42  # 42 eh o comando de chamada de sistema para gerar um inteiro randomico
+			move $a1, $t1 # $a1 eh onde eh setado o limite superior
+			syscall     #o numero gerado estara em $a0 
 			
-			# $t0 = position
-			# $s1 = base array
+			# $t0 = posicao
+			# $s1 = array base
 			sll $t3, $t0, 2 # i * bytes
 			add $t3, $t3, $s1 # base + (position * bytes)
 			
-			# Saving
+			# Salvando
 			sw $a0, 0($t3)
 			
 			# i = i + 1

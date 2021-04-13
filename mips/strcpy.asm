@@ -14,49 +14,49 @@
 
     ########################
 
-    # Functions
-    # a0 will be the string base address
-    # "abc" = return 4 ('a' 'b' 'c' '\0')
+    # Funcoes
+    # a0 vai ser o endereco base da string
+    # "abc" = retorna 4 ('a' 'b' 'c' '\0')
     strlen:
-        # Reseting the return register
+        # Reseta o registro de retorno 
         addi $v0, $zero, 0
         addi $t5, $zero, 10 # 10 = \n
 			
         loop_strlen:
-        	# Converting value
+        	# Convertendo o valor
         	# lb
 			lb $t0, ($a0)
         		
 			# i = i + 1
 			addi $v0, $v0, 1
 			
-			# pointer + 1
+			# Ponteiro + 1
 			addi $a0, $a0, 1
 			
 			# If !($a0 == $zero) goto loop_strlen
 			bne $t0, $t5, loop_strlen
 			
-		# Returning
+		# Retornando
 	jr $ra		
 	
-	# Copy
+	# Copia
 	cpy:
 		subiu $sp, $sp, 4
 		sw $ra, 0($sp)
 		
-		# endereco da source no s1
+		# endereco da origem no s1
 		move $s0, $a0
 		
-		# INPUT LENGTH
-		# a0 is source address
+		# TAMANHO DA ENTRADA
+		# a0 eh o endereco de origem
 		jal strlen
 		
-		# DYNAMIC ALLOCATIO
+		# ALOCACAO DINAMICA
 		move $a0, $v0 	# v0 = retorno de strlen
-		li $v0, 9       # código para alocar memória
+		li $v0, 9       # codigo para alocar memoria
 		syscall
 		
-		# endereco da destination no s1
+		# endereco do destino no s1
 		move $s1, $v0
 		
 		cpy_for:
@@ -73,19 +73,19 @@
 	jr $ra
 	
     main:
-		# INPUT MSG
+		# MENSAGEM DE ENTRADA
 		li $v0, 4
 		la $a0, inputText
 		syscall
 
-		# INPUT
+		# ENTRADA
 		li $v0, 8 		# Codigo de String
 		la $a0, source  # Lugar armazenado
 		li $a1, 20 		# Tamanho Maximo
 		syscall
 		
 		# cpy
-		# a0 = endereco da string source
+		# a0 = endereco da string origem
 		jal cpy
 		move $s0, $v0
 		
@@ -94,7 +94,7 @@
 		la $a0, string_source
 		syscall
 		
-		# ADDRESS
+		# ENDERECO
 		li $v0, 1
 		la $a0, source
 		syscall
@@ -109,12 +109,12 @@
 		syscall
 		
 		
-		# Destination		
+		# Destino
 		li $v0, 4
 		la $a0, string_destination
 		syscall
 		
-		# ADDRESS
+		# ENDERECO
 		li $v0, 1
 		move $a0, $s0 
 		syscall
